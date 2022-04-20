@@ -65,8 +65,10 @@ async function jeopardyRead() {
     let answerText = document.querySelector('#answerInfo')
     let displayQ = document.querySelector('#displayQuestion')
     let userResponse = document.querySelector('#userResponse')
-    let submitQ = document.querySelector('#submitQ')
-    // console.log(answerText.innerText)
+    let submitForm = document.querySelector('#form-content-jeopardy')
+    let currentCountStr = document.querySelector('#header input')
+    // console.log(currentCount)
+    let count = 'count'
     // console.log(selectedQuestion)
     for(let q of selectedQuestion) {
         q.addEventListener('click', event => {
@@ -75,11 +77,27 @@ async function jeopardyRead() {
             //get access to questions and answer
             //display question
             displayQ.innerText = questionText.textContent
-            submitQ.addEventListener('submit',event=> {
+            let totalCount = localStorage.getItem(count)
+            if(totalCount === null) {
+                    currentCountStr.value = 0
+            } else {
+                totalCount = parseInt(currentCountStr)
+            } 
+            submitForm.addEventListener('submit',event=> {
                 event.preventDefault();
-                console.log(userResponse.value)
+                // console.log(userResponse.value)
+                // console.log(q.innerText)
+                //if answer matches question increase point value for score
                 if (userResponse.value === answerText.innerText) {
-                    console.log(true)
+                    alert('Correct!')
+                    //increase score by storing value plus stored value
+                    q.innerText = q.innerText.substring(1)
+                    totalCount += q.innerText
+                    localStorage.setItem(count,currentCountStr.innerText)
+                    
+                    //erase content for response and answer?
+                } else {
+                    alert('Incorrect')
                 }
             })
 
